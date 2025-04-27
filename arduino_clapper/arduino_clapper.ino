@@ -34,7 +34,7 @@
 
 /* Includes ---------------------------------------------------------------- */
 #include <PDM.h>
-#include <keyword_spotting_project_inferencing.h>
+#include <clapper_inferencing.h>
 
 /** Audio buffers, pointers and selectors */
 typedef struct {
