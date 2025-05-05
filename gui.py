@@ -3,7 +3,7 @@ import time
 import tkinter as tk
 
 # Set up serial connection
-arduino = serial.Serial(port='COM4', baudrate=9600, timeout=.1)
+arduino = serial.Serial(port='COM12', baudrate=9600, timeout=.1)
 
 # Create the GUI window
 root = tk.Tk()
@@ -61,20 +61,20 @@ def update_display():
             # Parse prediction
             clap_score = None
             for buf_line in buffer:
-                if "clap:" in buf_line:
+                if "clap" in buf_line:
                     try:
-                        clap_score = float(buf_line.split(":")[1].strip())
+                        clap_score = float(buf_line.split(" with probability")[1].strip())
                     except Exception as e:
-                        print("Error parsing score:", e)
-
+                        print(f"Error parsing clap score: {e}")
+                        clap_score = None
             # If a clap was detected with high enough confidence
             if clap_score is not None and clap_score > 0.7:
                 # Toggle light state
                 light_on = not light_on
-                if light_on:
-                    canvas.itemconfig(square, fill="white")
-                else:
-                    canvas.itemconfig(square, fill="black")
+            if light_on:
+                canvas.itemconfig(square, fill="white")
+            else:
+                canvas.itemconfig(square, fill="black")
             
             # Reset buffer for next block
             buffer = []
